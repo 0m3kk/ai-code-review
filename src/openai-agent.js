@@ -5,6 +5,44 @@ const BaseAIAgent = require("./base-ai-agent");
 const { MAX_REVIEW_ITERATIONS } = require("./constants");
 
 /**
+ * Adds line numbers to a diff string containing multiple hunks.
+ * The function automatically reads each hunk header to reset the line counter.
+ *
+ * @param {string} diffString - The diff text, containing one or more blocks.
+ * @returns {string} - The diff string with line numbers correctly added to each block.
+ */
+function addNumbersToMultiHunkDiff(diffString) {
+  // Regular expression to find and extract the line number from a hunk header.
+  const hunkHeaderRegex = /@@\s*-\d+(?:,\d+)?\s*\+(\d+)(?:,\d+)?\s*@@/;
+
+  // Stores the current line number, which gets updated for each new hunk.
+  let currentLineNumber = 0;
+  const outputLines = [];
+  const lines = diffString.split('\n');
+
+  for (const line of lines) {
+    // Check if the current line is a hunk header.
+    const match = line.match(hunkHeaderRegex);
+
+    if (match) {
+      // If it's a header, reset the starting line number.
+      currentLineNumber = parseInt(match[1], 10);
+      // Add the header line itself to the output (with padding for alignment).
+      outputLines.push(`     ${line}`);
+    } else if (line.startsWith('+') || line.startsWith(' ')) {
+      // If it's an added line ('+') or a context line (' ').
+      const lineNumber = currentLineNumber++;
+      outputLines.push(`${lineNumber.toString().padStart(4, ' ')} ${line}`);
+    } else {
+      // For other lines (like deleted '-' lines or empty lines).
+      outputLines.push(`     ${line}`);
+    }
+  }
+
+  return outputLines.join('\n');
+}
+
+/**
  * OpenAIAgent
  * -----------
  * Automates pull-request code review by orchestrating OpenAI function-calling
@@ -235,7 +273,7 @@ class OpenAIAgent extends BaseAIAgent {
             additions: f.additions,
             deletions: f.deletions,
             changes: f.changes,
-            patch: f.patch
+            patch: addNumbersToMultiHunkDiff(f.patch)
         }));
 
         const reviewState = {
