@@ -188,15 +188,18 @@ class OpenAIAgent extends BaseAIAgent {
                 /* ── follow-up call ── */
                 try {
                     core.info(`Sending follow-up request to OpenAI with model: ${this.model}`);
-                    const followUp = await this.openai.chat.completions.create({
+                    const req = {
                         model: this.model,
                         messages: [
                             { role: "system", content: this.getSystemPrompt() },
                             ...reviewState.messageHistory
                         ],
                         tools: this.tools
-                    });
+                    }
+                    console.log(`Request: ${JSON.stringify(req)}`)
+                    const followUp = await this.openai.chat.completions.create(req);
                     message = followUp.choices[0].message; // continue loop
+                    console.log(`Response: ${JSON.stringify(message)}`)
                     continue;
                 } catch (error) {
                     core.error(`OpenAI API error in follow-up: ${error.message}`);
