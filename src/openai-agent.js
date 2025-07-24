@@ -256,15 +256,18 @@ class OpenAIAgent extends BaseAIAgent {
 
         try {
             core.info(`Sending initial request to OpenAI with model: ${this.model}`);
-            const initial = await this.openai.chat.completions.create({
+            const req = {
                 model: this.model,
                 messages: [
                     { role: "system", content: this.getSystemPrompt() },
                     ...reviewState.messageHistory
                 ],
                 tools: this.tools
-            });
+            }
+            core.info(`Request: ${req}`)
+            const initial = await this.openai.chat.completions.create(req);
             const initialMessage = initial.choices[0].message;
+            core.info(`Response: ${initialMessage}`)
             reviewSummary = await this.handleMessageResponse(initialMessage, reviewState);
             return reviewSummary;
         } catch (error) {
