@@ -84,7 +84,7 @@ jobs:
         owner: ${{ github.repository_owner }}
         repo: ${{ github.event.repository.name }}
         pr_number: ${{ github.event.number }}
-        
+
         ai_provider: 'openai'
         openai_api_key: ${{ secrets.OPENAI_API_KEY }}
         openai_model: 'gpt-4.1'
@@ -110,7 +110,7 @@ jobs:
         owner: ${{ github.repository_owner }}
         repo: ${{ github.event.repository.name }}
         pr_number: ${{ github.event.number }}
-        
+
         ai_provider: 'anthropic'
         anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
         anthropic_model: 'claude-sonnet-4-20250514'
@@ -136,7 +136,7 @@ jobs:
         owner: ${{ github.repository_owner }}
         repo: ${{ github.event.repository.name }}
         pr_number: ${{ github.event.number }}
-        
+
         ai_provider: 'google'
         google_api_key: ${{ secrets.GOOGLE_API_KEY }}
         google_model: 'gemini-2.5-flash'
@@ -162,7 +162,7 @@ jobs:
         owner: ${{ github.repository_owner }}
         repo: ${{ github.event.repository.name }}
         pr_number: ${{ github.event.number }}
-        
+
         ai_provider: 'deepseek'
         deepseek_api_key: ${{ secrets.DEEPSEEK_API_KEY }}
         deepseek_model: 'deepseek-chat'
@@ -188,7 +188,7 @@ jobs:
         owner: ${{ github.repository_owner }}
         repo: ${{ github.event.repository.name }}
         pr_number: ${{ github.event.number }}
-        
+
         ai_provider: 'x'
         x_api_key: ${{ secrets.X_API_KEY }}
         x_model: 'grok-3'
@@ -214,7 +214,7 @@ jobs:
         owner: ${{ github.repository_owner }}
         repo: ${{ github.event.repository.name }}
         pr_number: ${{ github.event.number }}
-        
+
         ai_provider: 'perplexity'
         perplexity_api_key: ${{ secrets.PERPLEXITY_API_KEY }}
         perplexity_model: 'sonar-reasoning-pro'
@@ -243,7 +243,7 @@ jobs:
 
         ai_provider: 'openai'
         openai_api_key: ${{ secrets.OPENAI_API_KEY }}
-        
+
         include_extensions: '.py,.js,.tsx'
         exclude_extensions: '.test.js'
         include_paths: 'src/,app/'
@@ -261,14 +261,17 @@ jobs:
 
 #### Action Failing with Timeout
 - **Problem**: The action fails with a timeout error
-- **Solution**: 
+- **Solution**:
   1. Try using a simpler or faster model
   2. Split large PRs into smaller ones
   3. Use include/exclude paths to limit the scope of the review
 
 #### Error: "This model's maximum context length is exceeded"
 - **Problem**: The AI model can't process all the provided code due to token limitations
-- **Solution**: 
+- **Solution**:
   1. Use exclude_paths to skip large files
   2. Use include_extensions to focus only on critical file types
   3. Make smaller PRs with fewer changed files
+
+
+API_KEY=XXXWERRT
