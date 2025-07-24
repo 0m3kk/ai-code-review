@@ -264,10 +264,10 @@ class OpenAIAgent extends BaseAIAgent {
                 ],
                 tools: this.tools
             }
-            core.info(`Request: ${req}`)
+            core.info(`Request: ${JSON.stringify(req)}`)
             const initial = await this.openai.chat.completions.create(req);
             const initialMessage = initial.choices[0].message;
-            core.info(`Response: ${initialMessage}`)
+            core.info(`Response: ${JSON.stringify(initialMessage)}`)
             reviewSummary = await this.handleMessageResponse(initialMessage, reviewState);
             return reviewSummary;
         } catch (error) {
