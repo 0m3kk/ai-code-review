@@ -28,14 +28,14 @@ function addNumbersToMultiHunkDiff(diffString) {
       // If it's a header, reset the starting line number.
       currentLineNumber = parseInt(match[1], 10);
       // Add the header line itself to the output (with padding for alignment).
-      outputLines.push(`     ${line}`);
+      outputLines.push(`    │${line}`);
     } else if (line.startsWith('+') || line.startsWith(' ')) {
       // If it's an added line ('+') or a context line (' ').
       const lineNumber = currentLineNumber++;
-      outputLines.push(`${lineNumber.toString().padStart(4, ' ')} ${line}`);
+      outputLines.push(`${lineNumber.toString().padStart(4, ' ')}│${line}`);
     } else {
       // For other lines (like deleted '-' lines or empty lines).
-      outputLines.push(`     ${line}`);
+      outputLines.push(`    │${line}`);
     }
   }
 
